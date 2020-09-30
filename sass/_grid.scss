@@ -1,0 +1,37 @@
+@mixin pad{
+    @media(max-width:768px){
+        @content;
+    }
+}
+@mixin iphone{
+    @media(max-width:568px){
+        @content;
+    }
+}
+
+.card{
+    @include iphone(){
+        float:none;
+        width: 100%;
+    }
+}
+.lingya, .sanmin, .xinxing, .yancheng, .meinong{
+    @include pad(){
+        padding:15px 10px !important;
+    }
+}
+.menu {
+    @include pad() {
+        width: 60%;
+    }
+    @include iphone() {
+        width: 90%;
+    }
+    
+}
+.title{
+    @include pad() {
+        padding-top: 40px;
+        margin: 0 0 10px 0;
+    }
+}
