@@ -1,3 +1,18 @@
+$(document).ready(function(){
+  $('.carousel.carousel-slider').carousel({
+    fullWidth: true
+  }).height(500);
+  $('select').formSelect();
+  M.AutoInit();
+});
+
+$('i#prev').click(function() {
+  $('.carousel').carousel('prev');
+});
+
+$('i#next').click(function() {
+  $('.carousel').carousel('next');
+});
 let area = document.getElementById("areaId");
 getData();
 let data = {};
@@ -46,11 +61,13 @@ function renderList(data) {
         //當兩個相同時就回傳該值
         ---------------------------------------------------------------------------*/
   console.log(areaList);
-  for (let i = 0; i < areaList.length; i++) {
-    let str = document.createElement("option");
-    str.textContent = areaList[i];
-    document.querySelector(".cityZoon").appendChild(str);
-  }
+  var Options="";
+    $.each(areaList, function(i, val){ 
+      Options=Options+"<option value='"+val+"'>"+val+"</option>";
+    });
+    $('#areaId').empty();
+    $("#areaId").append(Options);
+    $("#areaId").formSelect()
 }
 area.addEventListener("change", updateList, false);
 function updateList(e) {
@@ -65,31 +82,34 @@ function updateList(e) {
       //若選到的值 == 陣列內XX區的話
       title.textContent = data[i].Zone; //替換標題為選到的區
       instr += `
-                        <li class="card">
-                                <div class="cardtop" style="background-image:url( ${data[i].Picture1})">
-                                        <p class="Attractions">${data[i].Name} </p>
-                                        <p class="zoonName">${data[i].Zone} </p>
-                                </div>
-                                <div class="cardbody">
-                                                <ul class="cardContent clearfix">
-                                                        <li style="vertical-align:bottom;">
-                                                                <img src="https://i.imgur.com/C6ZkDe1.png" style="width:15px; height:15px; vertical-align: bottom; margin-right:10px;">
-                                                                ${data[i].Opentime}
-                                                        </li>
-                                                        <li style="vertical-align:bottom;">
-                                                                <img src="https://i.imgur.com/CV4k1m0.png" style="width:15px; height:18px; vertical-align: bottom; margin-right:10px;">
-                                                                ${data[i].Add}
-                                                        </li>
-                                                        <li style="vertical-align:bottom;">
-                                                                <img src="https://i.imgur.com/2ypRm7n.png" style="width:15px; height:18px; vertical-align: bottom; margin-right:10px;">
-                                                                ${data[i].Tel}
-                                                                        <span class="info"><img src="https://i.imgur.com/r0mSgb8.png" style="height:15px; width:15px; vertical-align: bottom; margin-right:10px;">
-                                                                                ${data[i].Ticketinfo}
-                                                                        </span>
-                                                        </li>
-                                                </ul>
-                                </div>
-                        </li>`;
+      <li class="card">
+        <div class="cardtop" style="background-image:url( ${data[i].Picture1})">
+          <div class="area_block">
+            <p class="Attractions">${data[i].Name} </p>
+            <p class="zoonName">${data[i].Zone} </p>
+          </div>
+        </div>
+        <div class="cardbody">
+          <ul class="cardContent clearfix">
+            <li style="vertical-align:bottom;">
+              <i class="far fa-clock"></i>
+              ${data[i].Opentime}
+            </li>
+            <li style="vertical-align:bottom;">
+              <i class="fas fa-map-marker-alt"></i>
+              ${data[i].Add}
+            </li>
+            <li style="vertical-align:bottom;">
+              <i class="fas fa-phone"></i>
+              ${data[i].Tel}
+              <span class="info">
+                <i class="far fa-file"></i>
+                ${data[i].Ticketinfo}
+              </span>
+            </li>
+          </ul>
+        </div>
+      </li>`
     }
   }
   list.innerHTML = instr;
@@ -105,32 +125,35 @@ function hotZonelist(e) {
   for (let i = 0; i < len; i++) {
     if (sec == data[i].Zone) {
       title.textContent = data[i].Zone; //替換標題為選到的區
-      hotstr += `<li class="card">
-                                <div class="cardtop" style="background-image:url('${data[i].Picture1}')">
-                                <p class="Attractions">${data[i].Name}</p>
-                                <p class="zoonName">${data[i].Zone}</p>
-                                </div>
-                                <div class="cardbody">
-                                        <ul class="cardContent clearfix">
-                                                <li style="vertical-align:bottom;">
-                                                        <img src="https://i.imgur.com/C6ZkDe1.png" style="width:15px; height:15px; vertical-align: bottom; margin-right:10px;">
-                                                        ${data[i].Opentime}
-                                                </li>
-                                                <li style="vertical-align:bottom;">
-                                                        <img src="https://i.imgur.com/CV4k1m0.png" style="width:15px; height:18px; vertical-align: bottom; margin-right:10px;">
-                                                        ${data[i].Add}
-                                                </li>
-                                                <li style="vertical-align:bottom;">
-                                                        <img src="https://i.imgur.com/2ypRm7n.png" style="width:15px; height:18px; vertical-align: bottom; margin-right:10px;">
-                                                        ${data[i].Tel}
-                                                                <span class="info">
-                                                                        <img src="https://i.imgur.com/r0mSgb8.png" style="height:15px; width:15px; vertical-align: bottom; margin-right:10px;">
-                                                                        ${data[i].Ticketinfo}
-                                                                </span>
-                                                </li>
-                                        </ul>'
-                                </div>
-                        </li>`;
+      hotstr += 
+      `<li class="card">
+        <div class="cardtop" style="background-image:url('${data[i].Picture1}')">
+          <div class="area_block">
+            <p class="Attractions">${data[i].Name}</p>
+            <p class="zoonName">${data[i].Zone}</p>
+          </div>
+        </div>
+        <div class="cardbody">
+          <ul class="cardContent clearfix">
+            <li style="vertical-align:bottom;">
+              <i class="far fa-clock"></i>
+              ${data[i].Opentime}
+            </li>
+            <li style="vertical-align:bottom;">
+              <i class="fas fa-map-marker-alt"></i>
+              ${data[i].Add}
+            </li>
+            <li style="vertical-align:bottom;">
+              <i class="fas fa-phone"></i>
+              ${data[i].Tel}
+              <span class="info">
+                <i class="far fa-file"></i>
+                ${data[i].Ticketinfo}
+              </span>
+            </li>
+          </ul>
+        </div>
+      </li>`
     }
   }
   list.innerHTML = hotstr;
